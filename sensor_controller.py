@@ -9,18 +9,16 @@ class Senser(object):
 
     def __init__(self, cmd):
         self.proc = Popen(cmd,
-                          stdin=PIPE,
                           stdout=PIPE,
-                          stderr=PIPE,
                           shell=False,
-                          bufsize=32)
+                          bufsize=0)
         flags = fcntl(self.proc.stdout, F_GETFL)  # get current p.stdout flags
         fcntl(self.proc.stdout, F_SETFL, flags | O_NONBLOCK)
         self.value = 0.0
 
     def getValue(self):
         try:
-            # value = read(self.proc.stdout.fileno(), )
+            # value = read(self.proc.stdout.fileno(), 16)
             value = float(self.proc.stdout.readline())
         except:
             pass

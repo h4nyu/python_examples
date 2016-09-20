@@ -6,4 +6,4 @@ while True:
     sensorValue += 0.1
     sys.stdout.write("{0}\n".format(sensorValue))
     sys.stdout.flush()
-    time.sleep(1)
+    time.sleep(0.3)

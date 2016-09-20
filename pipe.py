@@ -1,6 +1,7 @@
 import sys
 from subprocess import PIPE, Popen
 from threading import Thread
+import time
 
 try:
     from Queue import Queue, Empty
@@ -9,7 +10,6 @@ except ImportError:
 
 
 def enqueue_output(out, queue):
-    time.sleep(0.1)
     for line in iter(out.readline()):
         queue.put(line)
     out.close()
@@ -25,8 +25,10 @@ t.start()
 
 # read line without blocking
 
-try:
-    line = q.get_nowait()  # or q.get(timeout=.1)
-    print(line)
-except Empty:
-    print('no output yet')
+while True:
+    time.sleep(0.1)
+    try:
+        line = q.get_nowait()  # or q.get(timeout=.1)
+        print(line)
+    except Empty:
+        print('no output yet')
