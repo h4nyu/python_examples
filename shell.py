@@ -1,7 +1,7 @@
 import sys
 import time
 while True:
-    s = raw_input("Enter command: ")
-    print "You entered: {}".format(s)
+    s = raw_input()
+    print "{}\n".format(s)
     time.sleep(2)
     sys.stdout.flush()

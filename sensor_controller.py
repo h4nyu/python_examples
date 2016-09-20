@@ -1,4 +1,5 @@
 from subprocess import Popen, PIPE
+import matplotlib.pyplot as plt
 import time
 from fcntl import fcntl, F_GETFL, F_SETFL
 from os import O_NONBLOCK, read
@@ -11,7 +12,7 @@ class Senser(object):
                           stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=False)
         flags = fcntl(self.proc.stdout, F_GETFL)  # get current p.stdout flags
         fcntl(self.proc.stdout, F_SETFL, flags | O_NONBLOCK)
-        self.value = ''
+        self.value = 0
 
     def getValue(self):
         try:
@@ -31,6 +32,8 @@ sensers.append(senser)
 # run the shell as a subprocess:
 
 start_time = time.time()
+senser0=[]
+senser1=[]
 
 for i in range(30):
     for senser in sensers:
@@ -40,6 +43,11 @@ for i in range(30):
     nowtime = round(time.time() - start_time, 2)
     print(nowtime)
 
-    for senser in sensers:
-        print(senser.getValue())
+    senser0.append(sensers[0].getValue())
+    senser1.append(sensers[1].getValue())
+
+plt.plot(senser0)
+plt.plot(senser1)
+plt.show()
+
 
