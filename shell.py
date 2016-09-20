@@ -1,9 +1,10 @@
 import sys
 import time
-s=0
+s = 0
 while True:
     # s = raw_input()
-    print "{}\n".format(s)
-    time.sleep(1)
+    # print "{}\n".format(s)
+    sys.stdout.write("{0}\n".format(s))
     sys.stdout.flush()
-    s +=1000
+    time.sleep(1)
+    s += 1000
