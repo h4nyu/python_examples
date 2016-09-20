@@ -32,10 +32,10 @@ sensers.append(senser)
 # run the shell as a subprocess:
 
 start_time = time.time()
-senser0=[]
-senser1=[]
+senser0 = []
+senser1 = []
 
-for i in range(30):
+for i in range(50):
     for senser in sensers:
         senser.proc.stdin.write('{0}\n'.format(senser.proc.pid))
 
@@ -43,11 +43,10 @@ for i in range(30):
     nowtime = round(time.time() - start_time, 2)
     print(nowtime)
 
+    print sensers[0].getValue()
     senser0.append(sensers[0].getValue())
     senser1.append(sensers[1].getValue())
 
 plt.plot(senser0)
 plt.plot(senser1)
 plt.show()
-
-
