@@ -53,9 +53,9 @@ gyro_xout = read_word_2c(0x43)
 gyro_yout = read_word_2c(0x45)
 gyro_zout = read_word_2c(0x47)
 
-print "gyro_xout: ", gyro_xout, " scaled: ", (gyro_xout / 131)
-print "gyro_yout: ", gyro_yout, " scaled: ", (gyro_yout / 131)
-print "gyro_zout: ", gyro_zout, " scaled: ", (gyro_zout / 131)
+print "gyro_xout: ", gyro_xout, " scaled: ", (gyro_xout / 131.0)
+print "gyro_yout: ", gyro_yout, " scaled: ", (gyro_yout / 131.0)
+print "gyro_zout: ", gyro_zout, " scaled: ", (gyro_zout / 131.0)
 
 print
 print "accelerometer data"

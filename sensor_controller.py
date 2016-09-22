@@ -1,11 +1,10 @@
 from subprocess import Popen, PIPE
-import sys
 import time
 from fcntl import fcntl, F_GETFL, F_SETFL
 from os import O_NONBLOCK, read
 
 
-class Senser(object):
+class Sensor(object):
 
     def __init__(self, cmd):
         self.proc = Popen(cmd,
@@ -29,9 +28,9 @@ class Senser(object):
 
 if __name__ == '__main__':
     sensers = []
-    senser = Senser(['python', './sensor0.py'])
+    senser = Sensor(['python', './sensor0.py'])
     sensers.append(senser)
-    senser = Senser(['python', './sensor1.py'])
+    senser = Sensor(['python', './sensor1.py'])
     sensers.append(senser)
 
     start_time = time.time()
