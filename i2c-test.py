@@ -1,5 +1,4 @@
 import smbus
-import time
 import ctypes
 
 
@@ -46,19 +45,21 @@ class MPU60X0(object):
         self.bus.write_byte_data(MPU60X0.PWR_MGMT_1, 0)
         self.accel_scale = 16384.0
         self.gyro_scale = 131.0
+        self.temp_scale = 340.0
+        self.temp_offset = 36.53
 
     def getGyroX(self):
-        return self.bus.read_word_data(MPU60X0.GYRO_XOUT)
+        return self.bus.read_word_data(MPU60X0.GYRO_XOUT)/self.gyro_scale
 
     def getGyroY(self):
-        return self.bus.read_word_data(MPU60X0.GYRO_YOUT)
+        return self.bus.read_word_data(MPU60X0.GYRO_YOUT)/self.gyro_scale
 
     def getGyroZ(self):
-        return self.bus.read_word_data(MPU60X0.GYRO_ZOUT)
+        return self.bus.read_word_data(MPU60X0.GYRO_ZOUT)/self.gyro_scale
 
     def getTemp(self):
         data = ctypes.c_int16(self.bus.read_word_data(MPU60X0.TEMP_OUT)).value
-        return data / 340.0 + 36.53
+        return data / self.temp_scale + self.temp_offset
 
     def getAccelX(self):
         data = ctypes.c_int16(
@@ -75,17 +76,13 @@ class MPU60X0(object):
             self.bus.read_word_data(MPU60X0.ACCEL_ZOUT)).value
         return data / self.accel_scale
 
-
 if __name__ == '__main__':
     sensor = MPU60X0(1, 0x68)
 
-    for i in range(30):
-        print('=====================')
-        print(sensor.getTemp())
-        print(sensor.getGyroX())
-        print(sensor.getGyroY())
-        print(sensor.getGyroZ())
-        print(sensor.getAccelX())
-        print(sensor.getAccelY())
-        print(sensor.getAccelZ())
-        time.sleep(0.5)
+    print(sensor.getTemp())
+    print(sensor.getGyroX())
+    print(sensor.getGyroY())
+    print(sensor.getGyroZ())
+    print(sensor.getAccelX())
+    print(sensor.getAccelY())
+    print(sensor.getAccelZ())
