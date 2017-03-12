@@ -6,8 +6,14 @@
 #
 click==6.7                # via pip-tools
 first==2.0.1              # via pip-tools
+jedi==0.10.0
+pbr==2.0.0                # via stevedore
 pip-tools==1.8.0
-six==1.10.0               # via pip-tools
+six==1.10.0               # via pip-tools, stevedore
+stevedore==1.21.0         # via virtualenvwrapper
+virtualenv-clone==0.2.6   # via virtualenvwrapper
+virtualenv==15.1.0        # via virtualenvwrapper
+virtualenvwrapper==4.7.2
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip

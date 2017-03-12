@@ -1,2 +1,5 @@
 pip
 pip-tools
+jedi
+virtualenvwrapper
+
