@@ -2,29 +2,48 @@
 # -*- coding: utf-8 -*-
 
 from sqlalchemy import Column, ForeignKey
+from sqlalchemy import Table
 from sqlalchemy.types import Integer
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm.relationships import RelationshipProperty
+from sqlalchemy.dialects.postgresql import TEXT
 from dto_base import Base
+from table_builder import get_intermediate_table
+
+class_table_names = {
+    "Parent": "parent",
+    "Child": "child",
+}
 
 
-class ManyParent(Base):
+r_table = get_intermediate_table(Base.metadata,
+                                 class_table_names['Parent'],
+                                 class_table_names['Child'])
+
+
+class Parent(Base):
 
     """Docstring for Parent. """
-    __tablename__ = 'many_parent'
+    __tablename__ = class_table_names['Parent']
     id = Column(Integer, primary_key=True)
-    children = relationship('ManyChild')
+    name = Column(TEXT)
+    children = relationship('Child',
+                            secondary=r_table,
+                            back_populates="parents")
 
     def __repr__(self):
         return "<Parent(id={0})".format(self.id)
 
 
-class ManyChild(Base):
+class Child(Base):
 
     """Docstring for Child. """
-    __tablename__ = 'many_child'
+    __tablename__ = class_table_names['Child']
     id = Column(Integer, primary_key=True)
-    parent = relationship('ManyParent',  back_populates="children")
+    name = Column(TEXT)
+    parents = relationship('Parent',
+                           secondary=r_table,
+                           back_populates="children")
 
     def __repr__(self):
         return "<Parent(id={0})".format(self.id)
