@@ -1,47 +1,27 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 import sqlalchemy
-from sqlalchemy import Column
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
-from sqlalchemy.types import Integer
 from sqlalchemy.schema import CreateSchema
-from sqlalchemy.sql import exists, select
+from sqlalchemy.sql import exists
+from sqlalchemy.sql import select
+from dto_base import Base
+from dtos import ManyParent
+from dtos import ManyChild
+from dto_dto import OneChild
+from dto_dto import OneChild
+from table_builder import TableBuilder
+import inspect
 
 
-engine = create_engine(
-    'postgresql://foo_user:aaa@localhost/my_database', echo=True)
 
-Base = declarative_base()
-schema = "my_schema"
-Base.metadata.schema = schema
+if __name__ == "__main__":
 
-engine.execute('CREATE SCHEMA IF NOT EXISTS {0}'.format(schema))
-print(sqlalchemy.__version__)
+    engine = create_engine(
+        'postgresql://foo_user:aaa@localhost/my_database', echo=True)
 
-
-class Parent(Base):
-
-    """Docstring for Parent. """
-    __tablename__ = 'parent'
-    id = Column(Integer, primary_key=True)
-    children = relationship('Child')
-
-    def __repr__(self):
-        return "<Parent(id={0})".format(self.id)
-
-
-class Child(Base):
-
-    """Docstring for Child. """
-    __tablename__ = 'child'
-    id = Column(Integer, primary_key=True)
-    parent = relationship("Parent", back_populates="aaaa")
-
-    def __repr__(self):
-        return "<Parent(id={0})".format(self.id)
-
-Base.metadata.create_all(engine)
+    # engine.execute('CREATE SCHEMA IF NOT EXISTS {0}'.format(schema))
+    tb = TableBuilder(Base.metadata)
+    tb.many_to_many(ManyChild, ManyParent)
+    Base.metadata.create_all(engine)
 
