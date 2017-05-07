@@ -1,5 +1,5 @@
 pip
 pip-tools
-jedi
-virtualenvwrapper
+flake8
+pytest
 
